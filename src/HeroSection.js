@@ -59,14 +59,14 @@ const TechIcon = styled(motion.div)`
   position: absolute;
   pointer-events: none;
   z-index: 1;
-  font-size: 2.6rem;
+  font-size: 2.4rem;
   color: ${props => props.$color || "#ffffff"};
   filter: drop-shadow(0 0 14px ${props => props.$color || "#ffffff"}44);
-  opacity: 0.8;
+  opacity: 0.55;
 
   @media (max-width: 768px) {
     font-size: 1.9rem;
-    opacity: 0.7;
+    opacity: 0.45;
   }
 `;
 
@@ -240,9 +240,13 @@ const HeroSection = () => {
   const springX = useSpring(mouseX, springConfig);
   const springY = useSpring(mouseY, springConfig);
 
-  // Parallax values
+  // Parallax values for main content
   const moveX = useTransform(springX, [0, 2000], [-15, 15]);
   const moveY = useTransform(springY, [0, 1200], [-15, 15]);
+
+  // Slightly stronger parallax for background tech icons
+  const iconMoveX = useTransform(springX, [0, 2000], [-25, 25]);
+  const iconMoveY = useTransform(springY, [0, 1200], [-25, 25]);
 
   useEffect(() => {
     // Disable parallax on touch devices to avoid the initial shift and keep it centered
@@ -267,7 +271,7 @@ const HeroSection = () => {
 
       {/* Tech-stacked floating icons */}
       <TechIcon
-        style={{ top: "18%", left: "8%" }}
+        style={{ x: iconMoveX, y: iconMoveY, top: "20%", left: "12%" }}
         animate={{ y: [0, -14, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         $color="#61DAFB"
@@ -276,7 +280,7 @@ const HeroSection = () => {
       </TechIcon>
 
       <TechIcon
-        style={{ bottom: "14%", left: "10%" }}
+        style={{ x: iconMoveX, y: iconMoveY, bottom: "18%", left: "15%" }}
         animate={{ y: [0, 14, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
         $color="#3C873A"
@@ -285,7 +289,7 @@ const HeroSection = () => {
       </TechIcon>
 
       <TechIcon
-        style={{ top: "22%", right: "10%" }}
+        style={{ x: iconMoveX, y: iconMoveY, top: "25%", right: "12%" }}
         animate={{ y: [0, -16, 0] }}
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
         $color="#3776AB"
@@ -294,7 +298,7 @@ const HeroSection = () => {
       </TechIcon>
 
       <TechIcon
-        style={{ bottom: "18%", right: "8%" }}
+        style={{ x: iconMoveX, y: iconMoveY, bottom: "20%", right: "15%" }}
         animate={{ y: [0, 12, 0] }}
         transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
         $color="#777BB4"
@@ -303,7 +307,7 @@ const HeroSection = () => {
       </TechIcon>
 
       <TechIcon
-        style={{ top: "10%", right: "35%" }}
+        style={{ x: iconMoveX, y: iconMoveY, top: "18%", right: "35%" }}
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
         $color="#4DB33D"
@@ -312,7 +316,7 @@ const HeroSection = () => {
       </TechIcon>
 
       <TechIcon
-        style={{ bottom: "10%", left: "40%" }}
+        style={{ x: iconMoveX, y: iconMoveY, bottom: "14%", left: "40%" }}
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
         $color="#31A8FF"
