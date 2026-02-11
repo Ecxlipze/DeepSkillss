@@ -1,16 +1,10 @@
 import React, { useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { FaBook, FaPlayCircle } from "react-icons/fa";
 
 // Import asset
 import aboutBg from "./assets/aboutus-bg.png";
-
-const glow = keyframes`
-  0% { filter: drop-shadow(0 0 10px rgba(255, 230, 0, 0.4)); }
-  50% { filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.8)); }
-  100% { filter: drop-shadow(0 0 10px rgba(255, 230, 0, 0.4)); }
-`;
 
 const Section = styled.section`
   background-color: #000;

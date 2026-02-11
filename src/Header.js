@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBook, FaUserTie, FaPlayCircle, FaCommentAlt, FaEnvelope, FaChevronDown } from "react-icons/fa";
+import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBook, FaUserTie, FaPlayCircle, FaCommentAlt, FaEnvelope } from "react-icons/fa";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import logoImg from "./logo.svg";
 

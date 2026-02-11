@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 import RegisterButton from "./components/RegisterButton";
 
@@ -244,18 +243,7 @@ const RegisterCTA = styled(motion.div)`
 
 
 
-const PulseEffect = styled(motion.div)`
-  position: absolute;
-  top: 50%; left: 50%; width: 105%; height: 105%;
-  background: #7B1F2E;
-  filter: blur(20px);
-  z-index: -1;
-  border-radius: 14px;
-`;
-
 const FounderMessage = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

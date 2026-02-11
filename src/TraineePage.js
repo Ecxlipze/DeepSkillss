@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { FaBrain, FaRegHandPointer, FaWalking, FaLeaf } from "react-icons/fa";
 
 import RegisterButton from "./components/RegisterButton";
@@ -404,8 +403,6 @@ const FeatureBottom = styled.div`
 `;
 
 const TraineePage = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
