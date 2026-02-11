@@ -1,0 +1,635 @@
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBook, FaUserTie, FaPlayCircle, FaCommentAlt, FaEnvelope, FaChevronDown } from "react-icons/fa";
+import { FiChevronRight, FiChevronDown } from "react-icons/fi";
+import logoImg from "./logo.svg";
+
+const Nav = styled(motion.nav)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 1000;
+  background: ${props => props.$scrolled ? "rgba(0, 0, 0, 0.8)" : "rgba(0, 0, 0, 0.4)"};
+  backdrop-filter: ${props => props.$scrolled ? "blur(12px)" : "blur(8px)"};
+  border-bottom: 1px solid ${props => props.$scrolled ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 0.05)"};
+  transition: all 0.3s ease;
+
+  @media (max-width: 1100px) {
+    padding: 0 20px;
+    height: 70px;
+  }
+`;
+
+const LogoWrapper = styled.a`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+  
+  img {
+    height: 45px;
+    width: auto;
+    display: block; // Ensure it behaves as a block to avoid spacing issues
+  }
+
+  @media (max-width: 1100px) {
+    img {
+      height: 35px;
+    }
+  }
+`;
+
+const NavPill = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 40px;
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.01);
+  }
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
+`;
+
+const NavLink = styled(motion.a)`
+  color: ${props => props.$active ? "#7B1F2E" : "#fff"};
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: ${props => props.$active ? "100%" : "0"};
+    height: 2px;
+    background-color: #7B1F2E;
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    color: #7B1F2E;
+  }
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  @media (max-width: 1100px) {
+    gap: 15px;
+  }
+`;
+
+const LoginLink = styled(motion.a)`
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  
+  &:hover {
+    color: #ccc;
+  }
+
+  @media (max-width: 1100px) {
+    background: #7B1F2E;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(123, 31, 46, 0.2);
+    
+    &:hover {
+      background: #9b283b;
+      color: #fff;
+    }
+  }
+`;
+
+const ContactBtn = styled(motion.button)`
+  background-color: #7B1F2E;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #9b283b;
+  }
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
+`;
+
+const MobileMenuBtn = styled.div`
+  display: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 5px; // Better hit area
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  @media (max-width: 1100px) {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const NavPillContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const DesktopDropdown = styled(motion.div)`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 0;
+  min-width: 200px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 1001;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+  }
+`;
+
+const DropdownLink = styled.a`
+  display: block;
+  padding: 12px 25px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(123, 31, 46, 0.2);
+    color: #7B1F2E;
+  }
+`;
+
+// Mobile Menu Components
+const MobileMenuContainer = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background-color: #7B1F2E;
+  z-index: 2000;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  overflow-y: auto;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`;
+
+const MobileMenuHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+const MobileLogo = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  img {
+    height: 35px; // Matching mobile header size
+    width: auto;
+    display: block;
+  }
+`;
+
+const CloseBtn = styled.div`
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+const MobileControls = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+`;
+
+const MobileCta = styled.button`
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  background: ${props => props.$primary ? "#000" : "#fff"};
+  color: ${props => props.$primary ? "#fff" : "#7B1F2E"};
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const MobileTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+`;
+
+const MobileLinkWrapper = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+`;
+
+const MainLink = styled(motion.a)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #EFECEC;
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  color: #7B1F2E; // Explicitly set color for icons
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const LinkLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #7B1F2E;
+  font-size: 1.1rem;
+
+  span {
+    color: #7B1F2E;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+`;
+
+const DropdownContent = styled(motion.div)`
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 0 5px;
+  border-radius: 0 0 10px 10px;
+`;
+
+const SubLink = styled.a`
+  display: block;
+  padding: 12px 20px 12px 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+const Header = () => {
+  const [activeLink, setActiveLink] = useState("HOME");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [coursesExpanded, setCoursesExpanded] = useState(false);
+  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
+  
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const links = [
+    { name: "Home", href: "/", isRoute: true, icon: <FaHome /> },
+    { name: "About Us", href: "/about", isRoute: true, icon: <FaInfoCircle /> },
+    { 
+      name: "Courses", 
+      href: "#courses", 
+      icon: <FaBook />, 
+      hasDropdown: true,
+      sublinks: [
+        { name: "Graphic Design", href: "#courses" },
+        { name: "Full Stack (Laravel)", href: "#courses" },
+        { name: "Full Stack (React)", href: "#courses" },
+        { name: "WordPress Mastery", href: "#courses" }
+      ]
+    },
+    { name: "Trainers", href: "/trainers", isRoute: true, icon: <FaUserTie /> },
+    { name: "Media", href: "#courses", icon: <FaPlayCircle /> },
+    { name: "Founder message", href: "/founder-message", isRoute: true, icon: <FaCommentAlt /> },
+    { name: "Contact Us", href: "/contact", isRoute: true, icon: <FaEnvelope /> },
+  ];
+
+  const handleLinkClick = (e, link) => {
+    if (link.isRoute) {
+      setMobileMenuOpen(false);
+      setActiveLink(link.name.toUpperCase());
+      return; // Standard Link behavior will take over
+    }
+
+    if (isHomePage) {
+      e.preventDefault();
+      const element = document.querySelector(link.href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setActiveLink(link.name.toUpperCase());
+      }
+    } else {
+      // Navigate to home and then scroll
+      navigate("/" + link.href);
+    }
+    setMobileMenuOpen(false);
+  };
+
+  return (
+    <>
+      <Nav
+        $scrolled={scrolled}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <LogoWrapper as={Link} to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          <img src={logoImg} alt="Deep Skills Logo" />
+        </LogoWrapper>
+
+        <NavPill
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          {links.slice(0, 6).map((link) => (
+            <NavPillContainer 
+              key={link.name}
+              onMouseEnter={() => link.hasDropdown && setDesktopDropdownOpen(true)}
+              onMouseLeave={() => link.hasDropdown && setDesktopDropdownOpen(false)}
+            >
+              {link.isRoute ? (
+                <NavLink 
+                  as={Link}
+                  to={link.href}
+                  $active={activeLink === link.name.toUpperCase()}
+                  onClick={(e) => handleLinkClick(e, link)}
+                >
+                  {link.name}
+                </NavLink>
+              ) : (
+                <NavLink 
+                  href={link.href} 
+                  $active={activeLink === link.name.toUpperCase()}
+                  onClick={(e) => handleLinkClick(e, link)}
+                >
+                  {link.name}
+                  {link.hasDropdown && <FiChevronDown style={{ fontSize: "0.8rem", marginTop: "2px" }} />}
+                </NavLink>
+              )}
+
+              {link.hasDropdown && (
+                <AnimatePresence>
+                  {desktopDropdownOpen && (
+                    <DesktopDropdown
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {link.sublinks.map((sub) => (
+                        <DropdownLink 
+                          key={sub.name} 
+                          href={sub.href}
+                          onClick={(e) => handleLinkClick(e, sub)}
+                        >
+                          {sub.name}
+                        </DropdownLink>
+                      ))}
+                    </DesktopDropdown>
+                  )}
+                </AnimatePresence>
+              )}
+            </NavPillContainer>
+          ))}
+        </NavPill>
+
+        <RightSection>
+          <LoginLink href="#login" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Login</LoginLink>
+          <ContactBtn 
+            as={Link}
+            to="/contact"
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+          >
+            Contact Us
+          </ContactBtn>
+          <MobileMenuBtn onClick={() => setMobileMenuOpen(true)}>
+            <FaBars />
+          </MobileMenuBtn>
+        </RightSection>
+      </Nav>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                position: "fixed", top: 0, left: 0, width: "100%", height: "100vh",
+                background: "rgba(0,0,0,0.6)", zIndex: 1999, backdropFilter: "blur(4px)"
+              }}
+            />
+            <MobileMenuContainer
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            >
+              <MobileMenuHeader>
+                <MobileLogo>
+                  <img src={logoImg} alt="Deep Skills" />
+                </MobileLogo>
+                <CloseBtn onClick={() => setMobileMenuOpen(false)}>
+                  <FaTimes />
+                </CloseBtn>
+              </MobileMenuHeader>
+
+              <MobileControls>
+                <MobileCta 
+                  as={Link}
+                  to="/contact"
+                  $primary 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact Us
+                </MobileCta>
+                <MobileCta onClick={() => setMobileMenuOpen(false)}>Login</MobileCta>
+              </MobileControls>
+
+              <MobileTitle>
+                <FaHome style={{ color: "rgba(255,255,255,0.7)" }} />
+                Navigate Deep Skills
+              </MobileTitle>
+
+              {links.map((link, index) => (
+                <MobileLinkWrapper 
+                  key={link.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + index * 0.05 }}
+                >
+                  <MainLink
+                    as={link.isRoute ? Link : "a"}
+                    to={link.isRoute ? link.href : undefined}
+                    href={link.isRoute ? undefined : (link.hasDropdown ? undefined : link.href)}
+                    onClick={(e) => {
+                      if (link.hasDropdown) {
+                        e.preventDefault();
+                        setCoursesExpanded(!coursesExpanded);
+                      } else {
+                        handleLinkClick(e, link);
+                      }
+                    }}
+                    style={{ 
+                      borderRadius: link.hasDropdown && coursesExpanded ? "10px 10px 0 0" : "10px"
+                    }}
+                  >
+                    <LinkLeft>
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </LinkLeft>
+                    {link.hasDropdown ? (
+                      <motion.div animate={{ rotate: coursesExpanded ? 180 : 0 }}>
+                        <FiChevronDown />
+                      </motion.div>
+                    ) : (
+                      <FiChevronRight />
+                    )}
+                  </MainLink>
+                  
+                  {link.hasDropdown && (
+                    <AnimatePresence>
+                      {coursesExpanded && (
+                        <DropdownContent
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          {link.sublinks.map((sub, idx) => (
+                            <SubLink 
+                              key={sub.name} 
+                              href={sub.href}
+                              onClick={(e) => handleLinkClick(e, sub)}
+                            >
+                              {sub.name}
+                            </SubLink>
+                          ))}
+                        </DropdownContent>
+                      )}
+                    </AnimatePresence>
+                  )}
+                </MobileLinkWrapper>
+              ))}
+            </MobileMenuContainer>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+export default Header;
