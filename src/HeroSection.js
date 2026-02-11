@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FiArrowRight, FiPlay } from "react-icons/fi";
+import { FaReact, FaNodeJs, FaPhp, FaPython } from "react-icons/fa";
+import { SiMongodb, SiAdobephotoshop } from "react-icons/si";
 
 // Import assets
 import heroBg from "./assets/hero-bg.png";
@@ -51,6 +53,21 @@ const CodeParticle = styled(motion.div)`
   pointer-events: none;
   z-index: 1;
   opacity: 0.35;
+`;
+
+const TechIcon = styled(motion.div)`
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  font-size: 2.6rem;
+  color: ${props => props.$color || "#ffffff"};
+  filter: drop-shadow(0 0 14px ${props => props.$color || "#ffffff"}44);
+  opacity: 0.8;
+
+  @media (max-width: 768px) {
+    font-size: 1.9rem;
+    opacity: 0.7;
+  }
 `;
 
 const ContentWrapper = styled(motion.div)`
@@ -247,6 +264,62 @@ const HeroSection = () => {
   return (
     <Section id="hero">
       <CodeParticles />
+
+      {/* Tech-stacked floating icons */}
+      <TechIcon
+        style={{ top: "18%", left: "8%" }}
+        animate={{ y: [0, -14, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        $color="#61DAFB"
+      >
+        <FaReact />
+      </TechIcon>
+
+      <TechIcon
+        style={{ bottom: "14%", left: "10%" }}
+        animate={{ y: [0, 14, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+        $color="#3C873A"
+      >
+        <FaNodeJs />
+      </TechIcon>
+
+      <TechIcon
+        style={{ top: "22%", right: "10%" }}
+        animate={{ y: [0, -16, 0] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+        $color="#3776AB"
+      >
+        <FaPython />
+      </TechIcon>
+
+      <TechIcon
+        style={{ bottom: "18%", right: "8%" }}
+        animate={{ y: [0, 12, 0] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
+        $color="#777BB4"
+      >
+        <FaPhp />
+      </TechIcon>
+
+      <TechIcon
+        style={{ top: "10%", right: "35%" }}
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+        $color="#4DB33D"
+      >
+        <SiMongodb />
+      </TechIcon>
+
+      <TechIcon
+        style={{ bottom: "10%", left: "40%" }}
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+        $color="#31A8FF"
+      >
+        <SiAdobephotoshop />
+      </TechIcon>
+
       <ContentWrapper style={{ x: moveX, y: moveY }}>
         <Heading
           initial={{ opacity: 0, y: 30 }}
