@@ -43,6 +43,16 @@ const Section = styled.section`
   }
 `;
 
+const CodeParticle = styled(motion.div)`
+  position: absolute;
+  color: #00ff9d;
+  font-size: 1.2rem;
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+`;
+
 const ContentWrapper = styled(motion.div)`
   position: relative;
   z-index: 2;
@@ -165,6 +175,41 @@ const SecondaryButton = styled(BaseButton)`
   }
 `;
 
+const CodeParticles = () => {
+  const particles = Array.from({ length: 18 });
+
+  return (
+    <>
+      {particles.map((_, i) => {
+        const char = Math.random() > 0.5 ? "0" : "1";
+        return (
+          <CodeParticle
+            key={i}
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+              opacity: 0,
+            }}
+            animate={{
+              y: [null, Math.random() * -120 - 120],
+              x: [null, (Math.random() - 0.5) * 120],
+              opacity: [0, 0.4, 0],
+            }}
+            transition={{
+              duration: Math.random() * 6 + 6,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 5,
+            }}
+          >
+            {char}
+          </CodeParticle>
+        );
+      })}
+    </>
+  );
+};
+
 const HeroSection = () => {
   const navigate = useNavigate();
   // Use window size or default to 1920x1080
@@ -201,6 +246,7 @@ const HeroSection = () => {
 
   return (
     <Section id="hero">
+      <CodeParticles />
       <ContentWrapper style={{ x: moveX, y: moveY }}>
         <Heading
           initial={{ opacity: 0, y: 30 }}
