@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBook, FaUserTie, FaPlayCircle, FaCommentAlt, FaEnvelope } from "react-icons/fa";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import logoImg from "./logo.svg";
+import RegisterButton from "./components/RegisterButton";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -55,17 +56,53 @@ const NavPill = styled(motion.div)`
   display: flex;
   align-items: center;
   gap: 30px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   padding: 10px 40px;
   border-radius: 50px;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
 
+  // Masked border glow (Static, all-side)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1.5px; // Border width
+    background: linear-gradient(
+      135deg, 
+      rgba(123, 31, 46, 0.2), 
+      rgba(255, 255, 255, 0.3), 
+      rgba(123, 31, 46, 0.2)
+    );
+    opacity: 0.4;
+    transition: opacity 0.5s ease, background 0.5s ease;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  // Soft background polish and border intensification on hover
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.25);
     transform: scale(1.01);
+    background: rgba(123, 31, 46, 0.08);
+
+    &::before {
+      opacity: 1;
+      background: linear-gradient(
+        135deg, 
+        rgba(123, 31, 46, 0.6), 
+        rgba(255, 255, 255, 0.6), 
+        rgba(123, 31, 46, 0.6)
+      );
+    }
   }
 
   @media (max-width: 1100px) {
@@ -85,6 +122,7 @@ const NavLink = styled(motion.a)`
   display: flex;
   align-items: center;
   gap: 6px;
+  z-index: 10; // Ensure clickable area is above glow pseudo-elements
 
   &::after {
     content: '';
@@ -110,6 +148,12 @@ const RightSection = styled.div`
 
   @media (max-width: 1100px) {
     gap: 15px;
+  }
+`;
+
+const DesktopOnlyBtn = styled.div`
+  @media (max-width: 1100px) {
+    display: none;
   }
 `;
 
@@ -141,26 +185,8 @@ const LoginLink = styled(motion.a)`
   }
 `;
 
-const ContactBtn = styled(motion.button)`
-  background-color: #7B1F2E;
-  color: #fff;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 6px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+// ContactBtn removed as it's replaced by RegisterButton
 
-  &:hover {
-    background-color: #9b283b;
-  }
-
-  @media (max-width: 1100px) {
-    display: none;
-  }
-`;
 
 const MobileMenuBtn = styled.div`
   display: none;
@@ -278,7 +304,7 @@ const MobileControls = styled.div`
   margin-bottom: 30px;
 `;
 
-const MobileCta = styled.button`
+const MobileCta = styled(motion.button)`
   flex: 1;
   padding: 12px;
   border-radius: 8px;
@@ -296,6 +322,7 @@ const MobileCta = styled.button`
     transform: scale(0.98);
   }
 `;
+
 
 const MobileTitle = styled.div`
   display: flex;
@@ -408,7 +435,7 @@ const Header = () => {
       ]
     },
     { name: "Trainers", href: "/trainers", isRoute: true, icon: <FaUserTie /> },
-    { name: "Media", href: "#courses", icon: <FaPlayCircle /> },
+    { name: "Media", href: "/media", isRoute: true, icon: <FaPlayCircle /> },
     { name: "Founder message", href: "/founder-message", isRoute: true, icon: <FaCommentAlt /> },
     { name: "Contact Us", href: "/contact", isRoute: true, icon: <FaEnvelope /> },
   ];
@@ -505,14 +532,14 @@ const Header = () => {
 
         <RightSection>
           <LoginLink href="#login" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Login</LoginLink>
-          <ContactBtn 
-            as={Link}
-            to="/contact"
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }}
-          >
-            Contact Us
-          </ContactBtn>
+          <DesktopOnlyBtn>
+            <RegisterButton 
+              to="/contact"
+              style={{ padding: "10px 24px", fontSize: "0.95rem" }}
+            >
+              Contact Us
+            </RegisterButton>
+          </DesktopOnlyBtn>
           <MobileMenuBtn onClick={() => setMobileMenuOpen(true)}>
             <FaBars />
           </MobileMenuBtn>
@@ -556,7 +583,13 @@ const Header = () => {
                 >
                   Contact Us
                 </MobileCta>
-                <MobileCta onClick={() => setMobileMenuOpen(false)}>Login</MobileCta>
+                <MobileCta 
+                  as={Link}
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Login
+                </MobileCta>
               </MobileControls>
 
               <MobileTitle>

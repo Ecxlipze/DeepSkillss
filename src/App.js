@@ -10,6 +10,7 @@ import RegisterPage from './RegisterPage';
 import FounderMessage from './FounderMessage';
 import TraineePage from './TraineePage';
 import ContactPage from './ContactPage';
+import MediaPage from './MediaPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/media" element={<MediaPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/founder-message" element={<FounderMessage />} />
         <Route path="/trainers" element={<TraineePage />} />

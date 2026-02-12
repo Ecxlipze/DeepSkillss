@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FaEnvelope, FaMapMarkerAlt, FaBullseye, FaLightbulb, FaBars, FaUsers } from "react-icons/fa";
 import RegisterButton from "./components/RegisterButton";
+import GlowCard from "./components/GlowCard";
 
 // Import assets
 import contactBg from "./assets/contact-bg.png";
@@ -542,36 +543,8 @@ const FormGroup = styled(motion.div)`
   }
 `;
 
-const SubmitButton = styled(motion.button)`
-  width: 100%;
-  background: #7B1F2E;
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
-  font-weight: 700;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+// SubmitButton removed
 
-  &:hover {
-    background: #97142aff;
-    box-shadow: 0 8px 20px rgba(123, 31, 46, 0.5);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
 
 const FormImageContainer = styled(motion.div)`
   position: relative;
@@ -750,27 +723,31 @@ const ContactPage = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <ContactBox>
-              <div className="icon"><FaEnvelope /></div>
-              <p>For general inquiries, course details, or admissions support</p>
-              <div className="email">info@deepskills.pk</div>
-              <h3>WE AIM</h3>
-              <p>to respond to all queries</p>
-              <h4>AS QUICKLY AS</h4>
-              <p className="working">during working hours.</p>
-            </ContactBox>
+            <GlowCard borderRadius="0" bg="transparent" hoverBg="rgba(255, 255, 255, 0.03)" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <ContactBox>
+                <div className="icon"><FaEnvelope /></div>
+                <p>For general inquiries, course details, or admissions support</p>
+                <div className="email">info@deepskills.pk</div>
+                <h3>WE AIM</h3>
+                <p>to respond to all queries</p>
+                <h4>AS QUICKLY AS</h4>
+                <p className="working">during working hours.</p>
+              </ContactBox>
+            </GlowCard>
 
-            <AddressBox>
-              <div className="icon"><FaMapMarkerAlt /></div>
-              <h3>Deepskills Institute</h3>
-              <div className="address">
-                58 A2, Tipu Road Gulberg III, Lahore Pakistan
-              </div>
-              <p className="footer-text">
-                Feel free to visit us for guidance, counseling, or to learn more about our 
-                programs in person.
-              </p>
-            </AddressBox>
+            <GlowCard borderRadius="0" bg="transparent" hoverBg="rgba(255, 255, 255, 0.03)">
+              <AddressBox>
+                <div className="icon"><FaMapMarkerAlt /></div>
+                <h3>Deepskills Institute</h3>
+                <div className="address">
+                  58 A2, Tipu Road Gulberg III, Lahore Pakistan
+                </div>
+                <p className="footer-text">
+                  Feel free to visit us for guidance, counseling, or to learn more about our 
+                  programs in person.
+                </p>
+              </AddressBox>
+            </GlowCard>
           </RightSection>
         </ContentWrapper>
       </HeroSection>
@@ -788,26 +765,27 @@ const ContactPage = () => {
 
         <FeatureGrid>
           {features.map((feature, idx) => (
-            <FeatureCard
+            <GlowCard
               key={idx}
               initial={{ y: 40, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.15, type: "spring", stiffness: 100 }}
-              whileHover={{ 
-                scale: 1.05, 
-                backgroundColor: "rgba(123, 31, 46, 0.15)",
-                transition: { type: "spring", stiffness: 300 }
-              }}
+              borderRadius="20px"
+              bg="rgba(20, 20, 20, 0.7)"
+              hoverBg="rgba(123, 31, 46, 0.15)"
+              style={{ border: '1px solid rgba(245, 238, 238, 0.1)', height: '100%' }}
             >
-              <motion.div 
-                className="card-icon"
-                whileHover={{ rotate: [0, -10, 10, 0], transition: { duration: 0.5 } }}
-              >
-                {feature.icon}
-              </motion.div>
-              <p>{feature.text}</p>
-            </FeatureCard>
+              <FeatureCard style={{ background: 'transparent', border: 'none', transform: 'none', boxShadow: 'none' }}>
+                <motion.div 
+                  className="card-icon"
+                  whileHover={{ rotate: [0, -10, 10, 0], transition: { duration: 0.5 } }}
+                >
+                  {feature.icon}
+                </motion.div>
+                <p>{feature.text}</p>
+              </FeatureCard>
+            </GlowCard>
           ))}
         </FeatureGrid>
       </WhySection>
@@ -935,14 +913,13 @@ const ContactPage = () => {
                 {errors.message && <div className="error-message">{errors.message}</div>}
               </FormGroup>
 
-              <SubmitButton
+              <RegisterButton
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                style={{ width: "100%", clipPath: "none", borderRadius: "8px" }}
               >
                 {isSubmitting ? 'Sending...' : 'Submit'}
-              </SubmitButton>
+              </RegisterButton>
             </form>
           </FormContainer>
 

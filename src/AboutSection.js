@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FaGraduationCap, FaWrench, FaChalkboardTeacher, FaBriefcase } from "react-icons/fa";
+import GlowCard from "./components/GlowCard";
 
 const Container = styled.section`
   display: flex;
@@ -64,23 +65,6 @@ const IconWrapper = styled(motion.div)`
   transition: transform 0.3s;
 `;
 
-const OfferItem = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 12px;
-  background-color: #111111;
-  padding: 10px;
-  border-radius: 15px;
-  border: 1px solid #7A1E2D;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #1a1a1a;
-    border-color: #e60000;
-  }
-`;
-
 const OfferTitle = styled.h4`
   font-size: 1rem;
   font-weight: 600;
@@ -109,14 +93,6 @@ const MainHeading = styled.h2`
   color: #ffffff;
   font-weight: 400;
   line-height: 1.2;
-`;
-
-const ContentBox = styled(motion.div)`
-  background-color: #000000;
-  padding: 27px;
-  border-radius: 5px;
-  border: 1px solid #ba0b0bff;
-  cursor: pointer;
 `;
 
 const Para = styled.p`
@@ -170,20 +146,21 @@ const AboutSection = () => {
           viewport={{ once: true }}
         >
           {offers.map((offer, index) => (
-            <OfferItem
+            <GlowCard
               key={index}
               variants={itemVariants}
-              whileHover={{ 
-                y: -5, 
-                scale: 1.02, 
-                boxShadow: "0 5px 15px rgba(230, 0, 0, 0.2)" 
-              }}
+              borderRadius="15px"
+              bg="#111111"
+              hoverBg="#1a1a1a"
+              style={{ marginBottom: '12px', border: '1px solid #7A1E2D' }}
             >
-              <IconWrapper whileHover={{ rotate: 10 }}>
-                {offer.icon}
-              </IconWrapper>
-              <OfferTitle>{offer.title}</OfferTitle>
-            </OfferItem>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '10px' }}>
+                <IconWrapper whileHover={{ rotate: 10 }}>
+                  {offer.icon}
+                </IconWrapper>
+                <OfferTitle>{offer.title}</OfferTitle>
+              </div>
+            </GlowCard>
           ))}
         </motion.div>
       </LeftSide>
@@ -199,17 +176,21 @@ const AboutSection = () => {
           <MainHeading>Where Skills Become Careers</MainHeading>
         </RightHeader>
         
-        <ContentBox
-          whileHover={{ borderColor: "#e60000", y: -2 }}
-          transition={{ duration: 0.3 }}
+        <GlowCard
+          borderRadius="5px"
+          bg="#000000"
+          hoverBg="#050505"
+          style={{ border: '1px solid #ba0b0bff' }}
         >
-          <Para>
-            The future belongs to those who can create, build, and adapt. <strong>Deepskills</strong> is a modern learning institute focused on hands-on digital education. We help students and young adults gain the technical and creative skills needed to succeed in today’s fast-changing job market, whether as professionals, freelancers, or entrepreneurs. We believe that skills, not just degrees, shape strong careers.
-          </Para>
-          <Para>
-            Learn Skills, earn at an early age, and grasp your future.
-          </Para>
-        </ContentBox>
+          <div style={{ padding: '27px' }}>
+            <Para>
+              The future belongs to those who can create, build, and adapt. <strong>Deepskills</strong> is a modern learning institute focused on hands-on digital education. We help students and young adults gain the technical and creative skills needed to succeed in today’s fast-changing job market, whether as professionals, freelancers, or entrepreneurs. We believe that skills, not just degrees, shape strong careers.
+            </Para>
+            <Para>
+              Learn Skills, earn at an early age, and grasp your future.
+            </Para>
+          </div>
+        </GlowCard>
       </RightSide>
     </Container>
   );

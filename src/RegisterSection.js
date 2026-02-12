@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import rightImg from "./assets/rightimgarea.png";
+import RegisterButton from "./components/RegisterButton";
 
 const Section = styled.section`
   padding: 0;
@@ -106,39 +107,8 @@ const ButtonContainer = styled.div`
   background-color: #000;
 `;
 
-const RegisterButton = styled(motion.button)`
-  background-color: #7B1F2E;
-  color: #fff;
-  border: none;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 1.2rem;
-  padding: 15px 40px;
-  cursor: pointer;
-  clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
-  position: relative;
-  outline: none;
+// Local RegisterButton removed
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: #7B1F2E;
-    z-index: -1;
-    clip-path: inherit;
-    filter: blur(8px);
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover {
-    background-color: #9b283b;
-    &::before {
-      opacity: 1;
-      filter: blur(12px);
-    }
-  }
-`;
 
 const RegisterSection = () => {
   return (
@@ -176,18 +146,7 @@ const RegisterSection = () => {
       </MainContainer>
       
       <ButtonContainer>
-        <RegisterButton
-          animate={{ 
-            boxShadow: ["0 0 20px rgba(123, 31, 46, 0.6)", "0 0 35px rgba(230, 0, 0, 0.8)", "0 0 20px rgba(123, 31, 46, 0.6)"]
-          }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-          whileHover={{ scale: 1.05, y: -5 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <RegisterButton to="/register">
           REGISTER NOW
         </RegisterButton>
       </ButtonContainer>

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { FiArrowRight, FiPlay } from "react-icons/fi";
 import { FaReact, FaNodeJs, FaPhp, FaPython } from "react-icons/fa";
+import RegisterButton from "./components/RegisterButton";
 import { SiMongodb, SiAdobephotoshop } from "react-icons/si";
 
 // Import assets
@@ -149,48 +149,14 @@ const ButtonGroup = styled(motion.div)`
   justify-content: center;
 `;
 
-const BaseButton = styled(motion.button)`
-  padding: 14px 34px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: none;
-  position: relative;
-  transition: all 0.3s ease;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+// BaseButton removed
 
-  @media (max-width: 480px) {
-    width: 100%;
-    justify-content: center;
-  }
-`;
 
-const PrimaryButton = styled(BaseButton)`
-  background: #7B1F2E;
-  color: #fff;
-  box-shadow: 0 0 20px rgba(123, 31, 46, 0.3);
+// PrimaryButton removed
 
-  &:hover {
-    background: #9b283b;
-    box-shadow: 0 0 30px rgba(123, 31, 46, 0.5);
-  }
-`;
 
-const SecondaryButton = styled(BaseButton)`
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+// SecondaryButton removed
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
-  }
-`;
 
 const CodeParticles = () => {
   const particles = Array.from({ length: 18 });
@@ -228,7 +194,7 @@ const CodeParticles = () => {
 };
 
 const HeroSection = () => {
-  const navigate = useNavigate();
+  // navigate removed
   // Use window size or default to 1920x1080
   const initialX = typeof window !== 'undefined' ? window.innerWidth / 2 : 960;
   const initialY = typeof window !== 'undefined' ? window.innerHeight / 2 : 540;
@@ -363,16 +329,26 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <PrimaryButton 
-            onClick={() => navigate('/register')}
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.98 }}
+          <RegisterButton 
+            to="/register"
+            style={{ display: "flex", alignItems: "center", gap: "12px", width: window.innerWidth <= 480 ? "100%" : "auto" }}
           >
             <FiArrowRight size={20} /> Explore Courses
-          </PrimaryButton>
-          <SecondaryButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+          </RegisterButton>
+          <RegisterButton 
+            to="/register"
+            style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "12px", 
+              width: window.innerWidth <= 480 ? "100%" : "auto",
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(10px)"
+            }}
+          >
             <FiPlay size={18} /> Book a Demo
-          </SecondaryButton>
+          </RegisterButton>
         </ButtonGroup>
       </ContentWrapper>
     </Section>

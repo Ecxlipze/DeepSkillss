@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const StyledButton = styled(motion.button)`
   background-color: #7B1F2E;
@@ -18,6 +18,60 @@ const StyledButton = styled(motion.button)`
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  overflow: hidden;
+
+  // Running glow border effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      transparent,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.9),
+      transparent 80%
+    );
+    animation: rotateGlow 2s linear infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes rotateGlow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  // Inner background to preserve color over the glow
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background-color: #7B1F2E;
+    z-index: 1;
+    clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
+    transition: background-color 0.3s ease;
+  }
+
+  &:hover::after {
+    background-color: #922537;
+  }
+
+  span {
+    position: relative;
+    z-index: 2;
+  }
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -25,13 +79,26 @@ const StyledButton = styled(motion.button)`
   }
 `;
 
-const RegisterButton = ({ children = "REGISTER NOW", to = "/register", onClick, ...props }) => {
+const RegisterButton = ({ children = "REGISTER NOW", to = "/register", onClick, type = "button", ...props }) => {
+  const navigate = useNavigate();
+
+  const handleAction = (e) => {
+    if (onClick) {
+      onClick(e);
+    }
+    if (to) {
+      navigate(to);
+    }
+  };
+
   const buttonProps = {
+    whileHover: { scale: 1.05, y: -5 },
+    whileTap: { scale: 0.95 },
     animate: { 
       boxShadow: [
-        "0 0 20px rgba(123, 31, 46, 0.6)", 
-        "0 0 35px rgba(230, 0, 0, 0.8)", 
-        "0 0 20px rgba(123, 31, 46, 0.6)"
+        "0 0 15px rgba(123, 31, 46, 0.4)", 
+        "0 0 25px rgba(123, 31, 46, 0.6)", 
+        "0 0 15px rgba(123, 31, 46, 0.4)"
       ]
     },
     transition: { 
@@ -39,30 +106,18 @@ const RegisterButton = ({ children = "REGISTER NOW", to = "/register", onClick, 
       repeat: Infinity, 
       ease: "easeInOut" 
     },
-    whileHover: { scale: 1.05, y: -5 },
-    whileTap: { scale: 0.95 },
     ...props
   };
 
-  if (to) {
-    return (
-      <StyledButton
-        as={Link}
-        to={to}
-        onClick={onClick}
-        {...buttonProps}
-      >
-        {children}
-      </StyledButton>
-    );
-  }
-
   return (
     <StyledButton
-      onClick={onClick}
+      as={to ? Link : "button"}
+      to={to}
+      type={type}
+      onClick={to ? undefined : handleAction}
       {...buttonProps}
     >
-      {children}
+      <span>{children}</span>
     </StyledButton>
   );
 };

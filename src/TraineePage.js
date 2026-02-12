@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FaBrain, FaRegHandPointer, FaWalking, FaLeaf } from "react-icons/fa";
 
 import RegisterButton from "./components/RegisterButton";
+import GlowCard from "./components/GlowCard";
 
 // Import assets
 import traineeBg from "./assets/trainee-bg.png";
@@ -438,17 +439,23 @@ const TraineePage = () => {
 
           <InstructorGrid>
             {[1, 2, 3, 4, 5, 6].map((idx) => (
-              <InstructorCard
+              <GlowCard
                 key={idx}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
+                borderRadius="20px"
+                bg="rgba(123, 31, 46, 0.4)"
+                hoverBg="rgba(123, 31, 46, 0.6)"
+                style={{ border: '4px solid #7B1F2E' }}
               >
-                <ImageBox>
-                  <img src={traineeImg} alt={`Instructor ${idx}`} />
-                </ImageBox>
-              </InstructorCard>
+                <InstructorCard style={{ background: 'transparent', border: 'none', boxShadow: 'none', padding: 0 }}>
+                  <ImageBox>
+                    <img src={traineeImg} alt={`Instructor ${idx}`} />
+                  </ImageBox>
+                </InstructorCard>
+              </GlowCard>
             ))}
           </InstructorGrid>
 
@@ -477,19 +484,24 @@ const TraineePage = () => {
 
         <FeatureGrid>
           {features.map((feature, idx) => (
-            <FeatureCard
+            <GlowCard
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ y: -10 }}
+              borderRadius="20px"
+              bg="transparent"
+              hoverBg="rgba(123, 31, 46, 0.1)"
+              style={{ height: '100%', border: '1px solid transparent' }}
             >
-              <FeatureTop>{feature.icon}</FeatureTop>
-              <FeatureBottom>
-                <span>{feature.text}</span>
-              </FeatureBottom>
-            </FeatureCard>
+              <FeatureCard style={{ background: 'transparent', border: 'none', boxShadow: 'none', height: '100%' }}>
+                <FeatureTop>{feature.icon}</FeatureTop>
+                <FeatureBottom>
+                  <span>{feature.text}</span>
+                </FeatureBottom>
+              </FeatureCard>
+            </GlowCard>
           ))}
         </FeatureGrid>
       </WhySection>
