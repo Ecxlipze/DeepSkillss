@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import Slider from 'react-slick';
 import MediaCard from './components/MediaCard';
+import AwardsCard from './components/AwardsCard';
+import RegisterButton from './components/RegisterButton';
+
+// Slick Carousel CSS
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // Import assets
 import featureBg from './assets/feature-bg.png';
 import featureCard from './assets/feature-card.png';
 import dsTree from './assets/ds-tree.png';
+import awardsBg from './assets/awards-bg.png';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -18,17 +26,7 @@ const PageContainer = styled.div`
   position: relative;
 `;
 
-const ProgressBar = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: #7B1F2E;
-  transform-origin: 0%;
-  z-index: 2000;
-  box-shadow: 0 0 10px rgba(123, 31, 46, 0.5);
-`;
+
 
 const Spotlight = styled(motion.div)`
   position: fixed;
@@ -196,18 +194,57 @@ const WhyChooseSection = styled.section`
   }
 `;
 
+const AwardsSection = styled.section`
+  padding: 50px 20px;
+  position: relative;
+  background-image: url(${awardsBg});
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  ${ContentWrapper} {
+    z-index: 2;
+  }
+
+  .slick-slider {
+    margin-top: 40px;
+  }
+  
+  .slick-slide {
+    padding: 0 15px;
+  }
+`;
+
+const VideoSection = styled.section`
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  .register-btn-container {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+  }
+`;
+
 const StayUpdatedSection = styled.section`
   padding: 60px 20px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 `;
 
 const MediaPage = () => {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
   
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
@@ -257,11 +294,37 @@ const MediaPage = () => {
     }
   };
 
+  const sliderSettings = {
+    dots: false,
+    arrows: false,
+    infinite: true,
+    speed: 5000,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 0,
+    cssEase: "linear",
+    pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        }
+      }
+    ]
+  };
+
 
 
   return (
     <PageContainer>
-      <ProgressBar style={{ scaleX }} />
       <Spotlight style={{ '--x': spotlightX, '--y': spotlightY }} />
 
       <Banner>
@@ -363,7 +426,9 @@ const MediaPage = () => {
         </div>
       </WhyChooseSection>
 
+    
       <StayUpdatedSection>
+        <ParallaxBg style={{ y: yParallax }} />
         <ContentWrapper>
           <SectionHeader
             initial={{ opacity: 0, y: 40 }}
@@ -397,6 +462,103 @@ const MediaPage = () => {
           </CardGrid>
         </ContentWrapper>
       </StayUpdatedSection>
+        <AwardsSection>
+        <ContentWrapper>
+          <SectionHeader
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2>AWARDS</h2>
+            <p className="description">
+              Browse through our curated gallery showcasing student projects, 
+              coding workshops, and DeepSkill events.
+            </p>
+          </SectionHeader>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <Slider {...sliderSettings}>
+              <AwardsCard 
+                image={featureCard}
+                title="AWARDS"
+                description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
+              />
+              <AwardsCard 
+                image={featureCard}
+                title="AWARDS"
+                description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
+              />
+              <AwardsCard 
+                image={featureCard}
+                title="AWARDS"
+                description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
+              />
+               <AwardsCard 
+                image={featureCard}
+                title="AWARDS"
+                description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
+              />
+            </Slider>
+          </motion.div>
+        </ContentWrapper>
+      </AwardsSection>
+
+      <VideoSection>
+        <ParallaxBg style={{ y: yParallax }} />
+        <ContentWrapper>
+          <SectionHeader
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2>Learn Through Videos</h2>
+            <p className="description">
+              Browse through our curated gallery showcasing student projects, 
+              coding workshops, and DeepSkill events.
+            </p>
+          </SectionHeader>
+
+          <CardGrid
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <MediaCard 
+              variants={itemVariants}
+              image={featureCard} 
+              title="Featured Projects & Moments" 
+              onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank")}
+              style={{ cursor: 'pointer' }}
+            />
+            <MediaCard 
+              variants={itemVariants}
+              image={featureCard} 
+              title="Featured Projects & Moments" 
+              onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank")}
+              style={{ cursor: 'pointer' }}
+            />
+          </CardGrid>
+
+          <motion.div 
+            className="register-btn-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <RegisterButton />
+          </motion.div>
+        </ContentWrapper>
+      </VideoSection>
+
     </PageContainer>
   );
 };

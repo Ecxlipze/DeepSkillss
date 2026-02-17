@@ -430,7 +430,7 @@ const Header = () => {
       sublinks: [
         { name: "Graphic Design", href: "#courses" },
         { name: "Full Stack (Laravel)", href: "#courses" },
-        { name: "Full Stack (React)", href: "#courses" },
+        { name: "Full Stack (React)", href: "/full-stack-react", isRoute: true },
         { name: "WordPress Mastery", href: "#courses" }
       ]
     },
@@ -516,7 +516,9 @@ const Header = () => {
                       {link.sublinks.map((sub) => (
                         <DropdownLink 
                           key={sub.name} 
-                          href={sub.href}
+                          as={sub.isRoute ? Link : "a"}
+                          to={sub.isRoute ? sub.href : undefined}
+                          href={sub.isRoute ? undefined : sub.href}
                           onClick={(e) => handleLinkClick(e, sub)}
                         >
                           {sub.name}

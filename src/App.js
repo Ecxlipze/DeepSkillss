@@ -11,11 +11,17 @@ import FounderMessage from './FounderMessage';
 import TraineePage from './TraineePage';
 import ContactPage from './ContactPage';
 import MediaPage from './MediaPage';
+import FullStackPage from './FullStackPage';
+
+import ScrollProgressBar from './components/ScrollProgressBar';
+import GoToTopButton from './components/GoToTopButton';
 
 function App() {
   return (
     <Router>
       <GlobalStyle />
+      <ScrollProgressBar />
+      <GoToTopButton />
       <CustomCursor />
       
       <Header />
@@ -24,6 +30,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/media" element={<MediaPage />} />
+        <Route path="/full-stack-react" element={<FullStackPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/founder-message" element={<FounderMessage />} />
         <Route path="/trainers" element={<TraineePage />} />

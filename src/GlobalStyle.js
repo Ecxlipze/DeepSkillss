@@ -51,22 +51,16 @@ const GlobalStyle = createGlobalStyle`
     list-style: none;
   }
 
-  /* Custom Scrollbar */
+  /* Custom Scrollbar - Hidden but functional */
   ::-webkit-scrollbar {
-    width: 10px;
+    display: none;
+    width: 0px;
+    background: transparent;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #0a0a0a;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #7B1F2E;
-    border-radius: 5px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #9b283b;
+  /* For Firefox */
+  html {
+    scrollbar-width: none;
   }
 `;
 
