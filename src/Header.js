@@ -431,7 +431,7 @@ const Header = () => {
         { name: "Graphic Design", href: "#courses" },
         { name: "Full Stack (Laravel)", href: "#courses" },
         { name: "Full Stack (React)", href: "/full-stack-react", isRoute: true },
-        { name: "WordPress Mastery", href: "#courses" }
+        { name: "WordPress Mastery", href: "/wordpress-mastery", isRoute: true }
       ]
     },
     { name: "Trainers", href: "/trainers", isRoute: true, icon: <FaUserTie /> },

@@ -2,12 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import footerBg from "./assets/footer-bg.png";
 
 const FooterSection = styled.footer`
-  background-color: #000;
+  background: url(${footerBg});
+  background-size: cover;
+  background-position: center;
   padding: 80px 50px 30px;
   color: #fff;
-  border-top: 1px solid rgba(123, 31, 46, 0.3);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
 
   @media (max-width: 768px) {
     padding: 60px 25px 30px;
