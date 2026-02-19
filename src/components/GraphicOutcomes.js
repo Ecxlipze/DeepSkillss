@@ -142,22 +142,6 @@ const Underline = styled.div`
   margin-top: 10px;
 `;
 
-const LastCardGrid = styled.div`
-  grid-column: span 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @media (min-width: 1101px) {
-    grid-column: 2 / 5;
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    width: 100%;
-  }
-`;
-
 const GraphicOutcomes = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue } from 'framer-motion';
-import { FaPalette, FaImage, FaWindowRestore, FaBriefcase } from 'react-icons/fa';
+import { FaPalette, FaBriefcase } from 'react-icons/fa';
 
 const SectionContainer = styled.section`
   width: 100%;

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
 import graphicsCard from '../assets/graphics-card.png';
-import wpressBg from '../assets/wpress-bg.png'; // Using same background pattern for consistency but themed
 
 const HeroSection = styled.section`
   width: 100%;
