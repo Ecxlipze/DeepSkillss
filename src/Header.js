@@ -428,8 +428,8 @@ const Header = () => {
       icon: <FaBook />, 
       hasDropdown: true,
       sublinks: [
-        { name: "Graphic Design", href: "#courses" },
-        { name: "Full Stack (Laravel)", href: "#courses" },
+        { name: "Graphic Design", href: "/graphic-design", isRoute: true },
+        { name: "Full Stack (Laravel)", href: "/laravel-mastery", isRoute: true },
         { name: "Full Stack (React)", href: "/full-stack-react", isRoute: true },
         { name: "WordPress Mastery", href: "/wordpress-mastery", isRoute: true }
       ]
