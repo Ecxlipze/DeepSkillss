@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaStar, FaUsers, FaProjectDiagram, FaCheckCircle } from 'react-icons/fa';
 import wpressBg from '../assets/wpress-bg.png';
 import wpCard from '../assets/wp-card.png';
 

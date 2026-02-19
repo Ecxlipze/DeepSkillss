@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaStar, FaUsers, FaProjectDiagram, FaWallet, FaClock, FaBriefcase, FaChalkboardTeacher, FaHtml5, FaCss3Alt, FaReact, FaNodeJs, FaDatabase, FaGitAlt } from 'react-icons/fa';
-import { SiMongodb, SiExpress, SiJavascript, SiBootstrap, SiTailwindcss, SiJsonwebtokens } from 'react-icons/si';
+import { FaUser, FaStar, FaUsers, FaProjectDiagram, FaWallet, FaClock, FaBriefcase, FaChalkboardTeacher, FaDatabase } from 'react-icons/fa';
 import mernCard from './assets/mern-card.png';
 import mernProject from './assets/mern-project.png';
 import mernTree from './assets/mern-tree.png';

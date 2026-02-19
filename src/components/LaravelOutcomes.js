@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue } from 'framer-motion';
-import laraLearnBg from '../assets/lara-learn.png';
 
 const Section = styled.section`
   width: 100%;
