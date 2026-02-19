@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FaQuestionCircle, FaUserGraduate } from 'react-icons/fa';
 import instantBanner from '../assets/instant-banner.svg';
 
 const Section = styled.section`

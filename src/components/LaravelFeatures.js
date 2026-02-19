@@ -37,17 +37,6 @@ const Spotlight = styled(motion.div)`
   z-index: 1;
 `;
 
-const FloatingShape = styled(motion.div)`
-  position: absolute;
-  width: ${props => props.size || '300px'};
-  height: ${props => props.size || '300px'};
-  border-radius: 50%;
-  background: ${props => props.color || 'rgba(137, 243, 255, 0.03)'};
-  z-index: 1;
-  pointer-events: none;
-  filter: blur(60px);
-`;
-
 const ContentWrapper = styled.div`
   max-width: 1200px;
   width: 100%;
