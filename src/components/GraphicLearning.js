@@ -33,8 +33,12 @@ const ContentWrapper = styled.div`
   padding: 0 40px;
   display: flex;
   flex-direction: column;
-  items: center;
+  align-items: center;
   z-index: 2;
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
 `;
 
 const SectionTitle = styled(motion.h2)`

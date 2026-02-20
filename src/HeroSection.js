@@ -104,7 +104,7 @@ const Tagline = styled(motion.h2)`
   font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   color: #FF0000;
   text-transform: none;
   letter-spacing: 0.5px;
@@ -116,10 +116,10 @@ const Tagline = styled(motion.h2)`
 
 const Divider = styled(motion.div)`
   width: 100%;
-  max-width: 600px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  margin-bottom: 30px;
+  max-width: 800px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.9), transparent);
+  margin-bottom: 5px;
 `;
 
 const Description = styled(motion.p)`
@@ -129,11 +129,11 @@ const Description = styled(motion.p)`
   color: #E0E0E0;
   margin-bottom: 45px;
   max-width: 750px;
-  font-weight: 300;
+  font-weight: 400;
 
   span {
     color: #fff;
-    font-weight: 700;
+    font-weight: 800;
   }
 
   @media (max-width: 768px) {
@@ -147,6 +147,12 @@ const ButtonGroup = styled(motion.div)`
   gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  
+  @media (max-width: 480px) {
+    gap: 12px;
+  }
 `;
 
 // BaseButton removed
@@ -231,6 +237,8 @@ const HeroSection = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY, initialX, initialY]);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+
   return (
     <Section id="hero">
       <CodeParticles />
@@ -290,7 +298,7 @@ const HeroSection = () => {
         <SiAdobephotoshop />
       </TechIcon>
 
-      <ContentWrapper style={{ x: moveX, y: moveY }}>
+      <ContentWrapper style={!isMobile ? { x: moveX, y: moveY } : {}}>
         <Heading
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -331,23 +339,36 @@ const HeroSection = () => {
         >
           <RegisterButton 
             to="/register"
-            style={{ display: "flex", alignItems: "center", gap: "12px", width: window.innerWidth <= 480 ? "100%" : "auto" }}
+            style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "8px", 
+              flex: "1 1 auto", 
+              minWidth: "140px", 
+              justifyContent: "center",
+              padding: "12px 20px",
+              fontSize: "0.95rem"
+            }}
           >
-            <FiArrowRight size={20} /> Explore Courses
+            <FiArrowRight size={18} /> Explore Courses
           </RegisterButton>
           <RegisterButton 
             to="/register"
             style={{ 
               display: "flex", 
               alignItems: "center", 
-              gap: "12px", 
-              width: window.innerWidth <= 480 ? "100%" : "auto",
+              gap: "8px", 
+              flex: "1 1 auto",
+              minWidth: "140px",
+              justifyContent: "center",
+              padding: "12px 20px",
+              fontSize: "0.95rem",
               backgroundColor: "rgba(255, 255, 255, 0.1)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
               backdropFilter: "blur(10px)"
             }}
           >
-            <FiPlay size={18} /> Book a Demo
+            <FiPlay size={16} /> Book a Demo
           </RegisterButton>
         </ButtonGroup>
       </ContentWrapper>

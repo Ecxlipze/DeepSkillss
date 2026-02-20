@@ -440,11 +440,32 @@ const Header = () => {
     { name: "Contact Us", href: "/contact", isRoute: true, icon: <FaEnvelope /> },
   ];
 
+  useEffect(() => {
+    const currentPath = location.pathname;
+    // Default to matching path
+    let active = "HOME";
+
+    links.forEach(link => {
+      if (link.href === currentPath) {
+        active = link.name.toUpperCase();
+      }
+      if (link.hasDropdown) {
+        link.sublinks.forEach(sub => {
+          if (sub.href === currentPath) {
+            active = link.name.toUpperCase();
+          }
+        });
+      }
+    });
+    
+    setActiveLink(active);
+  }, [location.pathname]);
+
   const handleLinkClick = (e, link) => {
     if (link.isRoute) {
       setMobileMenuOpen(false);
-      setActiveLink(link.name.toUpperCase());
-      return; // Standard Link behavior will take over
+      // setActiveLink will be handled by useEffect on route change
+      return; 
     }
 
     if (isHomePage) {

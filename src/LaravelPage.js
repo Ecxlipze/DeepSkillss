@@ -11,7 +11,10 @@ import InstantDoubt from './components/InstantDoubt';
 import CertifySection from './components/CertifySection';
 import CourseOutline from './components/CourseOutline';
 import LaravelCareer from './components/LaravelCareer';
+
+import CourseRoadmap from './components/CourseRoadmap';
 import laraInstant from './assets/lara-instant-banner.svg';
+import laravelMap from './assets/laravel-map.png';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -45,6 +48,7 @@ const LaravelPage = () => {
       <CertifySection accentColor={accentColor} accentRGB={accentRGB} />
       <LaravelCareer />
       <CourseOutline accentColor={accentColor} accentRGB={accentRGB} />
+      <CourseRoadmap imageSrc={laravelMap} accentColor={accentColor} />
     </PageContainer>
   );
 };

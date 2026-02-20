@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { Link as RouterLink } from "react-router-dom";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import footerBg from "./assets/footer-bg.png";
+import footerLogo from "./assets/footer-logo.svg";
 
 const FooterSection = styled.footer`
   background: url(${footerBg});
@@ -52,14 +54,10 @@ const Column = styled.div`
   gap: 20px;
 `;
 
-const Logo = styled.div`
-  font-family: 'Asimovian', sans-serif;
-  font-size: 2.5rem;
-  color: #fff;
-  
-  span {
-    color: #7B1F2E;
-  }
+const LogoImage = styled.img`
+  width: 270px;
+  height: auto;
+  margin-bottom: 0px;
 `;
 
 const Description = styled.p`
@@ -79,7 +77,20 @@ const Title = styled.h4`
   letter-spacing: 1px;
 `;
 
-const Link = styled(motion.a)`
+const FooterLink = styled(motion.create(RouterLink))`
+  color: #ccc;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  width: fit-content;
+
+  &:hover {
+    color: #fff;
+  }
+`;
+
+const ExternalLink = styled(motion.a)`
   color: #ccc;
   text-decoration: none;
   font-family: 'Inter', sans-serif;
@@ -114,7 +125,7 @@ const SocialIcon = styled(motion.a)`
 
 const ContactInfo = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 15px;
   color: #ccc;
   font-family: 'Inter', sans-serif;
@@ -123,6 +134,8 @@ const ContactInfo = styled.div`
   svg {
     color: #7B1F2E;
     font-size: 1.2rem;
+    margin-top: 3px;
+    flex-shrink: 0;
   }
 `;
 
@@ -150,7 +163,9 @@ const Footer = () => {
     <FooterSection>
       <Grid>
         <Column>
-          <Logo>DEEP<span>SKILLS</span></Logo>
+          <RouterLink to="/">
+            <LogoImage src={footerLogo} alt="Deep Skills Logo" />
+          </RouterLink>
           <Description>
             Empowering the next generation of digital professionals with industry-relevant skills and hands-on training. Join our community and build your future today.
           </Description>
@@ -164,31 +179,28 @@ const Footer = () => {
 
         <Column>
           <Title>Quick Links</Title>
-          <Link href="#hero" whileHover={{ x: 5 }}>Home</Link>
-          <Link href="#about" whileHover={{ x: 5 }}>About Us</Link>
-          <Link href="#courses" whileHover={{ x: 5 }}>All Courses</Link>
-          <Link href="#testimonials" whileHover={{ x: 5 }}>Testimonials</Link>
-          <Link href="#register" whileHover={{ x: 5 }}>Register Now</Link>
+          <FooterLink to="/" whileHover={{ x: 5 }}>Home</FooterLink>
+          <FooterLink to="/about" whileHover={{ x: 5 }}>About Us</FooterLink>
+          <FooterLink to="/#courses" whileHover={{ x: 5 }}>All Courses</FooterLink>
+          <FooterLink to="/#testimonials" whileHover={{ x: 5 }}>Testimonials</FooterLink>
+          <FooterLink to="/contact" whileHover={{ x: 5 }}>Contact Us</FooterLink>
         </Column>
 
         <Column>
           <Title>Programs</Title>
-          <Link href="#" whileHover={{ x: 5 }}>Graphic Design</Link>
-          <Link href="#" whileHover={{ x: 5 }}>Full Stack (Laravel)</Link>
-          <Link href="#" whileHover={{ x: 5 }}>Full Stack (React)</Link>
-          <Link href="#" whileHover={{ x: 5 }}>WordPress Mastery</Link>
+          <FooterLink to="/graphic-design" whileHover={{ x: 5 }}>Graphic Design</FooterLink>
+          <FooterLink to="/laravel-mastery" whileHover={{ x: 5 }}>Full Stack (Laravel)</FooterLink>
+          <FooterLink to="/full-stack-react" whileHover={{ x: 5 }}>Full Stack (MERN)</FooterLink>
+          <FooterLink to="/wordpress-mastery" whileHover={{ x: 5 }}>WordPress Mastery</FooterLink>
         </Column>
 
         <Column>
           <Title>Contact Us</Title>
           <ContactInfo>
-            <FaPhone /> +1 234 567 890
+            <FaEnvelope /> info@deepskills.pk
           </ContactInfo>
           <ContactInfo>
-            <FaEnvelope /> info@deepskills.com
-          </ContactInfo>
-          <ContactInfo>
-            <FaMapMarkerAlt /> 123 Tech Avenue, Skill City
+            <FaMapMarkerAlt /> 58 A2, Tipu Road Gulberg III, Lahore Pakistan
           </ContactInfo>
         </Column>
       </Grid>
@@ -196,8 +208,8 @@ const Footer = () => {
       <Bottom>
         <div>© 2026 DEEPSKILLS. All rights reserved.</div>
         <div style={{ display: "flex", gap: "20px" }}>
-          <Link href="#">Privacy Policy</Link>
-          <Link href="#">Terms of Service</Link>
+          <ExternalLink href="#">Privacy Policy</ExternalLink>
+          <ExternalLink href="#">Terms of Service</ExternalLink>
         </div>
       </Bottom>
     </FooterSection>

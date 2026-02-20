@@ -40,7 +40,7 @@ const SectionContainer = styled.section`
 const ContentWrapper = styled.div`
   max-width: 1200px;
   width: 100%;
-  padding: 0 40px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,11 +61,20 @@ const SectionTitle = styled(motion.h2)`
 `;
 
 const OutcomesGrid = styled(motion.div)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   width: 100%;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
 `;
 
 const OutcomeCard = styled(motion.div)`
@@ -73,24 +82,11 @@ const OutcomeCard = styled(motion.div)`
   border-radius: 20px;
   overflow: hidden;
   height: 280px;
-  width: calc(25% - 20px); // 4 columns desktop
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   position: relative;
-
-  @media (max-width: 1100px) {
-    width: calc(33.333% - 20px); // 3 columns tablet
-  }
-
-  @media (max-width: 768px) {
-    width: calc(50% - 15px); // 2 columns mobile
-  }
-
-  @media (max-width: 480px) {
-    width: 100%; // 1 column small mobile
-  }
 
   &::after {
     content: '';
@@ -127,9 +123,9 @@ const CardBottom = styled.div`
   
   p {
     color: #000;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.4;
     margin: 0;
   }
 `;
@@ -139,7 +135,7 @@ const Underline = styled.div`
   height: 2px;
   background: #555;
   opacity: 0.3;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 const GraphicOutcomes = () => {
@@ -162,7 +158,7 @@ const GraphicOutcomes = () => {
     { text: "Perform advanced photo editing and manipulation" },
     { text: "Design complete website and mobile app interfaces" },
     { text: "Build a strong, portfolio-ready project collection" },
-    { text: "Qualify for roles such as Graphic Designer, Visual Designer, UI Designer, or Social Media Designer" },
+    { text: "Qualify for roles such as Graphic , Visual , UI , or Social Media Designer" },
     { text: "Start freelancing and handle real client projects confidently" }
   ];
 

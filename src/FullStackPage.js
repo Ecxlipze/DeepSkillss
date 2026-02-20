@@ -11,6 +11,9 @@ import WhyChooseUs from './components/WhyChooseUs';
 import InstantDoubt from './components/InstantDoubt';
 import CertifySection from './components/CertifySection';
 import CourseOutline from './components/CourseOutline';
+import CourseRoadmap from './components/CourseRoadmap';
+import mernMap from './assets/mern-map.png';
+
 
 const PageContainer = styled.div`
   width: 100%;
@@ -902,11 +905,10 @@ const FullStackPage = () => {
 
       <InstantDoubt />
 
-      <CertifySection />
-
-      <CourseOutline />
-
-
+      <CourseOutline accentColor="#97C049" accentRGB="151, 192, 73" />
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <CourseRoadmap imageSrc={mernMap} accentColor="#97C049" />
+      </div>
     </PageContainer>
   );
 };

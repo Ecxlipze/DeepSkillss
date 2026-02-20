@@ -123,12 +123,11 @@ const LearningCard = styled(motion.div)`
     }
 
     h3, p, li, svg, li::after {
-      color: #000 !important;
-      background-color: #000 !important;
+      color: #ffffffff !important;
     }
     
     li::after {
-      background-color: #000 !important;
+      background-color: #ffffffff !important;
     }
   }
 `;

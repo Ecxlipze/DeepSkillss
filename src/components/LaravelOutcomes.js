@@ -70,7 +70,7 @@ const Title = styled(motion.h2)`
   }
 `;
 
-const OutcomesGrid = styled.div`
+const OutcomesGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
@@ -100,6 +100,7 @@ const OutcomeCard = styled(motion.div)`
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   perspective: 1000px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #1a1a1a;
 
   &::before {
     content: '';
@@ -269,7 +270,7 @@ const LaravelOutcomes = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
         >
           {outcomes.map((text, index) => (
             <OutcomeCard 

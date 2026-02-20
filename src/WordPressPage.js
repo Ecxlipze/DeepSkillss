@@ -12,7 +12,9 @@ import InstantDoubt from './components/InstantDoubt';
 import CertifySection from './components/CertifySection';
 import CourseOutline from './components/CourseOutline';
 import WordPressOutcomes from './components/WordPressOutcomes';
+import CourseRoadmap from './components/CourseRoadmap';
 import wpInstantBanner from './assets/wp-instant-banner.svg';
+import wpMap from './assets/wp-map.png';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -43,6 +45,7 @@ const WordPressPage = () => {
       <CertifySection accentColor="#8CC7FF" accentRGB="140, 199, 255" />
       <WordPressOutcomes />
       <CourseOutline accentColor="#8CC7FF" accentRGB="140, 199, 255" />
+      <CourseRoadmap imageSrc={wpMap} accentColor="#8CC7FF" />
     </PageContainer>
   );
 };
