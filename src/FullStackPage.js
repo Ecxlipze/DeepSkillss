@@ -9,7 +9,6 @@ import mernTree from './assets/mern-tree.png';
 import VideoReviews from './components/VideoReviews';
 import WhyChooseUs from './components/WhyChooseUs';
 import InstantDoubt from './components/InstantDoubt';
-import CertifySection from './components/CertifySection';
 import CourseOutline from './components/CourseOutline';
 import CourseRoadmap from './components/CourseRoadmap';
 import mernMap from './assets/mern-map.png';

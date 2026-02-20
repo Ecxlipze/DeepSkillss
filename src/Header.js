@@ -419,7 +419,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const links = [
+  const links = React.useMemo(() => [
     { name: "Home", href: "/", isRoute: true, icon: <FaHome /> },
     { name: "About Us", href: "/about", isRoute: true, icon: <FaInfoCircle /> },
     { 
@@ -438,7 +438,7 @@ const Header = () => {
     { name: "Media", href: "/media", isRoute: true, icon: <FaPlayCircle /> },
     { name: "Founder message", href: "/founder-message", isRoute: true, icon: <FaCommentAlt /> },
     { name: "Contact Us", href: "/contact", isRoute: true, icon: <FaEnvelope /> },
-  ];
+  ], []);
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -459,7 +459,7 @@ const Header = () => {
     });
     
     setActiveLink(active);
-  }, [location.pathname]);
+  }, [location.pathname, links]);
 
   const handleLinkClick = (e, link) => {
     if (link.isRoute) {

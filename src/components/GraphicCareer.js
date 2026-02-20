@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion, useMotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 import graphicsBg from '../assets/graphics-bg.png';
 import graphicPath from '../assets/graphic-path.png';
 
