@@ -288,15 +288,6 @@ const DashboardPage = () => {
     }
   };
 
-  const getEmoji = (type) => {
-    switch (type) {
-      case 'design': return '🎨';
-      case 'laravel': return '🚀';
-      case 'react': return '⚛️';
-      case 'wordpress': return '🌐';
-      default: return '📚';
-    }
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
