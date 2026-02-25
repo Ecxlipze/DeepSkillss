@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import GlowCard from './GlowCard';
-import featureCardAsset from '../assets/feature-card.png';
+import featureCardAsset from '../assets/feature-card.svg';
 
 const CardContainer = styled(motion.div)`
   display: flex;

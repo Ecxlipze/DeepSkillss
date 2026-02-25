@@ -67,6 +67,7 @@ const TechIcon = styled(motion.div)`
   @media (max-width: 768px) {
     font-size: 1.9rem;
     opacity: 0.45;
+    display: none; // Hide floating icons on mobile for speed and to prevent overflow
   }
 `;
 
@@ -97,6 +98,7 @@ const Heading = styled(motion.h1)`
   }
   @media (max-width: 480px) {
     font-size: 2.2rem;
+    br { display: none; }
   }
 `;
 
@@ -165,7 +167,8 @@ const ButtonGroup = styled(motion.div)`
 
 
 const CodeParticles = () => {
-  const particles = Array.from({ length: 18 });
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const particles = Array.from({ length: isMobile ? 8 : 18 });
 
   return (
     <>
@@ -175,13 +178,12 @@ const CodeParticles = () => {
           <CodeParticle
             key={i}
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
+              x: (Math.random() * 95) + "%",
+              y: (Math.random() * 100) + "%",
               opacity: 0,
             }}
             animate={{
-              y: [null, Math.random() * -120 - 120],
-              x: [null, (Math.random() - 0.5) * 120],
+              y: [null, "-20%"],
               opacity: [0, 0.4, 0],
             }}
             transition={{

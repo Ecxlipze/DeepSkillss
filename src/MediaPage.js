@@ -12,9 +12,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 // Import assets
 import featureBg from './assets/feature-bg.png';
-import featureCard from './assets/feature-card.png';
+import featureCard from './assets/feature-card.svg';
 import dsTree from './assets/ds-tree.png';
 import awardsBg from './assets/awards-bg.png';
+import awardsAsset from './assets/awards.svg';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -485,17 +486,17 @@ const MediaPage = () => {
           >
             <Slider {...sliderSettings}>
               <AwardsCard 
-                image={featureCard}
+                image={awardsAsset}
                 title="AWARDS"
                 description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
               />
               <AwardsCard 
-                image={featureCard}
+                image={awardsAsset}
                 title="AWARDS"
                 description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
               />
               <AwardsCard 
-                image={featureCard}
+                image={awardsAsset}
                 title="AWARDS"
                 description="Browse through our curated gallery showcasing student projects, coding workshops, and DeepSkill events."
               />

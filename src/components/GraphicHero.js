@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import graphicsCard from '../assets/graphics-card.png';
+import graphicsCard from '../assets/graphics-card.svg';
 
 const HeroSection = styled.section`
   width: 100%;

@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import wpressBg from '../assets/wpress-bg.png';
-import wpCard from '../assets/wp-card.png';
+import wpCard from '../assets/wp-card.svg';
 
 const HeroSection = styled.section`
   width: 100%;

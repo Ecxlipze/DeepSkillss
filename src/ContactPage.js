@@ -9,7 +9,7 @@ import GlowCard from "./components/GlowCard";
 import contactBg from "./assets/contact-bg.png";
 import journeyBg from "./assets/journey.png";
 import formBg from "./assets/form-bg.png";
-import formRight from "./assets/form-right.png";
+import formRight from "./assets/form-right.svg";
 
 const PageContainer = styled(motion.div)`
   min-height: 100vh;

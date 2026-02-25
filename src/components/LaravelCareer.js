@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
-import laraCareer from '../assets/lara-career.png';
+import laraCareer from '../assets/lara-career.svg';
 
 const Section = styled.section`
   width: 100%;

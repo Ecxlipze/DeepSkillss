@@ -8,7 +8,7 @@ import GlowCard from "./components/GlowCard";
 
 // Import assets
 import traineeBg from "./assets/trainee-bg.png";
-import traineeImg from "./assets/trainee.png";
+import traineeImg from "./assets/trainee.svg";
 import whatdsBg from "./assets/whatds-bg.png";
 import founderImg from "./assets/founder.png";
 

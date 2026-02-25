@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import wpProject from '../assets/wp-project.png';
+import wpProject from '../assets/wp-project.svg';
 
 const Section = styled.section`
   width: 100%;
