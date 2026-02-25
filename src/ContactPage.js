@@ -636,23 +636,40 @@ const ContactPage = () => {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setSubmitSuccess(true);
-      setIsSubmitting(false);
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
+    try {
+      // Encode form data for Netlify
+      const encodedData = Object.keys(formData)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(formData[key]))
+        .join("&") + "&form-name=contact";
+
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodedData
+      });
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        // Reset form data
         setFormData({
           name: '',
           email: '',
           phone: '',
           message: ''
         });
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('There was an error sending your message. Please try again.');
+    } finally {
+      setIsSubmitting(true); // Keep it true for the success message delay or set to false
+      setTimeout(() => {
+        setIsSubmitting(false);
         setSubmitSuccess(false);
-      }, 3000);
-    }, 1500);
+      }, 5000);
+    }
   };
 
   const features = [
@@ -837,7 +854,21 @@ const ContactPage = () => {
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form 
+              name="contact" 
+              method="POST" 
+              data-netlify="true" 
+              data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+            >
+              {/* Hidden input for Netlify bot detection */}
+              <input type="hidden" name="form-name" value="contact" />
+              <p hidden>
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </p>
+
               <FormGroup
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}

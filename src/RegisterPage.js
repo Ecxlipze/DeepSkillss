@@ -472,17 +472,31 @@ const RegisterPage = () => {
     if (validate()) {
       setIsSubmitting(true);
       try {
+        // Netlify form submission via AJAX
+        const encodedData = Object.keys(formData)
+          .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(formData[key]))
+          .join("&") + "&form-name=registration";
+
+        await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encodedData
+        });
+
+        // Local registration logic
         await register({
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
           phone: formData.mobileNo
         });
+        
         setIsSuccess(true);
         setTimeout(() => {
           navigate('/dashboard');
-        }, 2000);
+        }, 3000); // 3 second delay to see success message
       } catch (err) {
         console.error("Registration failed", err);
+        alert('There was an error with your registration. Please try again.');
       } finally {
         setIsSubmitting(false);
       }
@@ -515,7 +529,17 @@ const RegisterPage = () => {
         Deepskills Admission Form
       </FormTitle>
 
-      <FormGrid onSubmit={handleSubmit}>
+      <FormGrid 
+        name="registration"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        onSubmit={handleSubmit}
+      >
+        <input type="hidden" name="form-name" value="registration" />
+        <p hidden>
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
         {/* First Name */}
         <FormCard
           initial={{ opacity: 0, scale: 0.9 }}
