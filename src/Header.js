@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBook, FaUserTie, FaPlayCircle, FaCommentAlt, FaEnvelope } from "react-icons/fa";
+import { FaBars, FaTimes, FaHome, FaInfoCircle, FaBook, FaUserTie, FaPlayCircle, FaCommentAlt, FaEnvelope, FaUser, FaSignOutAlt, FaColumns } from "react-icons/fa";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import logoImg from "./logo.svg";
 import RegisterButton from "./components/RegisterButton";
+import { useAuth } from "./context/AuthContext";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -28,7 +29,7 @@ const Nav = styled(motion.nav)`
   }
 `;
 
-const LogoWrapper = styled.a`
+const LogoWrapper = styled(Link)`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -157,7 +158,7 @@ const DesktopOnlyBtn = styled.div`
   }
 `;
 
-const LoginLink = styled(motion.a)`
+const LoginLink = styled(motion(Link))`
   color: #fff;
   text-decoration: none;
   font-family: 'Inter', sans-serif;
@@ -185,8 +186,95 @@ const LoginLink = styled(motion.a)`
   }
 `;
 
-// ContactBtn removed as it's replaced by RegisterButton
+const UserDropdown = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 5px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  transition: all 0.3s ease;
 
+  &:hover {
+    background: rgba(123, 31, 46, 0.1);
+    border-color: #7B1F2E;
+  }
+`;
+
+const UserAvatar = styled.div`
+  width: 32px;
+  height: 32px;
+  background: #7B1F2E;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+`;
+
+const UserName = styled.span`
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+`;
+
+const DropdownMenu = styled(motion.div)`
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  background: rgba(15, 15, 15, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 10px;
+  min-width: 200px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+`;
+
+const DropdownItem = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+
+  svg {
+    color: #7B1F2E;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: rgba(123, 31, 46, 0.15);
+    color: #fff;
+    transform: translateX(5px);
+  }
+
+  &.logout {
+    color: #ff4e4e;
+    &:hover {
+      background: rgba(255, 78, 78, 0.1);
+    }
+    svg {
+      color: #ff4e4e;
+    }
+  }
+`;
 
 const MobileMenuBtn = styled.div`
   display: none;
@@ -406,7 +494,9 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [coursesExpanded, setCoursesExpanded] = useState(false);
   const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   
+  const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
@@ -437,7 +527,6 @@ const Header = () => {
     { name: "Trainers", href: "/trainers", isRoute: true, icon: <FaUserTie /> },
     { name: "Media", href: "/media", isRoute: true, icon: <FaPlayCircle /> },
     { name: "Founder message", href: "/founder-message", isRoute: true, icon: <FaCommentAlt /> },
-    { name: "Contact Us", href: "/contact", isRoute: true, icon: <FaEnvelope /> },
   ], []);
 
   useEffect(() => {
@@ -482,6 +571,13 @@ const Header = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    logout();
+    setMobileMenuOpen(false);
+    setUserDropdownOpen(false);
+    navigate('/');
+  };
+
   return (
     <>
       <Nav
@@ -490,7 +586,7 @@ const Header = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <LogoWrapper as={Link} to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <LogoWrapper to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
           <img src={logoImg} alt="Deep Skills Logo" />
         </LogoWrapper>
 
@@ -499,7 +595,7 @@ const Header = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
         >
-          {links.slice(0, 6).map((link) => (
+          {links.slice(0, 7).map((link) => (
             <NavPillContainer 
               key={link.name}
               onMouseEnter={() => link.hasDropdown && setDesktopDropdownOpen(true)}
@@ -554,7 +650,46 @@ const Header = () => {
         </NavPill>
 
         <RightSection>
-          <LoginLink href="#login" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Login</LoginLink>
+          {user ? (
+            <div 
+              style={{ position: 'relative' }}
+              onMouseEnter={() => setUserDropdownOpen(true)}
+              onMouseLeave={() => setUserDropdownOpen(false)}
+            >
+              <UserDropdown>
+                <UserAvatar>{user.name.charAt(0).toUpperCase()}</UserAvatar>
+                <UserName>{user.name}</UserName>
+                <FiChevronDown color="#fff" />
+              </UserDropdown>
+
+              <AnimatePresence>
+                {userDropdownOpen && (
+                  <DropdownMenu
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <DropdownItem to="/dashboard">
+                      <FaColumns /> Dashboard
+                    </DropdownItem>
+                    <DropdownItem to="/profile">
+                      <FaUser /> My Profile
+                    </DropdownItem>
+                    <div style={{ padding: '0 10px' }}>
+                      <hr style={{ border: 'none', borderBottom: '1px solid rgba(255,255,255,0.1)', margin: '5px 0' }} />
+                    </div>
+                    <DropdownItem as="div" onClick={handleLogout} className="logout" style={{ cursor: 'pointer' }}>
+                      <FaSignOutAlt /> Logout
+                    </DropdownItem>
+                  </DropdownMenu>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <LoginLink to="/login" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Login</LoginLink>
+          )}
+
           <DesktopOnlyBtn>
             <RegisterButton 
               to="/contact"
@@ -598,27 +733,55 @@ const Header = () => {
               </MobileMenuHeader>
 
               <MobileControls>
-                <MobileCta 
-                  as={Link}
-                  to="/contact"
-                  $primary 
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact Us
-                </MobileCta>
-                <MobileCta 
-                  as={Link}
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Login
-                </MobileCta>
+                {user ? (
+                  <MobileCta 
+                    $primary 
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </MobileCta>
+                ) : (
+                  <>
+                    <MobileCta 
+                      as={Link}
+                      to="/contact"
+                      $primary 
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Contact Us
+                    </MobileCta>
+                    <MobileCta 
+                      as={Link}
+                      to="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Login
+                    </MobileCta>
+                  </>
+                )}
               </MobileControls>
 
               <MobileTitle>
                 <FaHome style={{ color: "rgba(255,255,255,0.7)" }} />
-                Navigate Deep Skills
+                {user ? `Hello, ${user.name}` : "Navigate Deep Skills"}
               </MobileTitle>
+
+              {user && (
+                <div style={{ marginBottom: '20px' }}>
+                  <MobileLinkWrapper>
+                    <MainLink as={Link} to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      <LinkLeft><FaColumns /> <span>Dashboard</span></LinkLeft>
+                      <FiChevronRight />
+                    </MainLink>
+                  </MobileLinkWrapper>
+                  <MobileLinkWrapper>
+                    <MainLink as={Link} to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                      <LinkLeft><FaUser /> <span>My Profile</span></LinkLeft>
+                      <FiChevronRight />
+                    </MainLink>
+                  </MobileLinkWrapper>
+                </div>
+              )}
 
               {links.map((link, index) => (
                 <MobileLinkWrapper 
@@ -668,7 +831,8 @@ const Header = () => {
                           {link.sublinks.map((sub, idx) => (
                             <SubLink 
                               key={sub.name} 
-                              href={sub.href}
+                              as={Link}
+                              to={sub.href}
                               onClick={(e) => handleLinkClick(e, sub)}
                             >
                               {sub.name}
@@ -689,3 +853,4 @@ const Header = () => {
 };
 
 export default Header;
+

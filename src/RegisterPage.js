@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 import { 
   FaUser, FaEnvelope, FaGraduationCap, FaPhone, 
   FaChevronDown, FaCheckCircle, FaFacebook, 
@@ -462,14 +464,28 @@ const RegisterPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
       setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
+      try {
+        await register({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: formData.mobileNo
+        });
         setIsSuccess(true);
-      }, 1500);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
+      } catch (err) {
+        console.error("Registration failed", err);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 

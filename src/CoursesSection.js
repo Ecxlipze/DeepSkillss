@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { FaLaptop, FaCode, FaPaintBrush, FaWordpress } from "react-icons/fa";
 import courseBg from "./assets/course-bg.png";
 
@@ -177,28 +178,34 @@ const cardVariants = {
 };
 
 const CoursesSection = () => {
+  const navigate = useNavigate();
+
   const courses = [
     { 
       title: "Graphic Design", 
       icon: <FaPaintBrush />, 
+      path: "/graphic-design",
       desc: "Learn visual communication, branding, and design fundamentals using industry-standard tools.",
       img: "https://via.placeholder.com/300x150/333/fff?text=Design"
     },
     { 
       title: "Full Stack Web Development (PHP & Laravel)", 
       icon: <FaLaptop />, 
+      path: "/laravel-mastery",
       desc: "Learn full-stack web development using PHP and Laravel to build dynamic web applications.",
       img: "https://via.placeholder.com/300x150/333/fff?text=PHP"
     },
     { 
       title: "Full Stack Web Development (React)", 
       icon: <FaCode />, 
+      path: "/full-stack-react",
       desc: "Develop modern, high-performance web applications using React & JavaScript frameworks.",
       img: "https://via.placeholder.com/300x150/333/fff?text=React"
     },
     { 
       title: "WordPress Web Development (Elementor)", 
       icon: <FaWordpress />, 
+      path: "/wordpress-mastery",
       desc: "Learn to design and develop professional websites using WordPress and Elementor.",
       img: "https://via.placeholder.com/300x150/333/fff?text=WordPress"
     }
@@ -224,7 +231,12 @@ const CoursesSection = () => {
       >
         <Column>
           {courses.slice(0, 2).map((course, index) => (
-            <CourseCard key={index} variants={cardVariants} whileHover={{ y: -10, scale: 1.02 }}>
+            <CourseCard 
+              key={index} 
+              variants={cardVariants} 
+              whileHover={{ y: -10, scale: 1.02 }}
+              onClick={() => navigate(course.path)}
+            >
               <IconContainer>{course.icon}</IconContainer>
               <Title>{course.title}</Title>
               <CourseImage style={{ backgroundImage: `url(${course.img})` }} />
@@ -236,7 +248,12 @@ const CoursesSection = () => {
 
         <Column>
           {courses.slice(2).map((course, index) => (
-            <CourseCard key={index} variants={cardVariants} whileHover={{ y: -10, scale: 1.02 }}>
+            <CourseCard 
+              key={index} 
+              variants={cardVariants} 
+              whileHover={{ y: -10, scale: 1.02 }}
+              onClick={() => navigate(course.path)}
+            >
               <IconContainer>{course.icon}</IconContainer>
               <Title>{course.title}</Title>
               <CourseImage style={{ backgroundImage: `url(${course.img})` }} />

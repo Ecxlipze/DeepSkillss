@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import wpressBg from '../assets/wpress-bg.png';
 import wpCard from '../assets/wp-card.png';
 
@@ -259,6 +260,7 @@ const AddedBenefit = styled.div`
 `;
 
 const WordPressHero = () => {
+  const { user, enrollCourse } = useAuth();
   const navigate = useNavigate();
   const [spotlightPos, setSpotlightPos] = React.useState({ x: 0, y: 0 });
   
@@ -285,6 +287,19 @@ const WordPressHero = () => {
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+  };
+
+  const handleEnroll = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      enrollCourse({
+        id: 'wordpress-mastery',
+        title: 'WordPress Mastery',
+        iconType: 'wordpress'
+      });
+      navigate('/dashboard');
+    }
   };
 
   const containerVariants = {
@@ -368,7 +383,7 @@ const WordPressHero = () => {
             <StartButton
               whileHover={{ scale: 1.05, boxShadow: "0 15px 35px rgba(60, 145, 255, 0.4)" }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/register')}
+              onClick={handleEnroll}
             >
               Start Learning
             </StartButton>
@@ -398,7 +413,7 @@ const WordPressHero = () => {
                 <EnrollButton
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/register')}
+                  onClick={handleEnroll}
                 >
                   Enroll Now
                 </EnrollButton>

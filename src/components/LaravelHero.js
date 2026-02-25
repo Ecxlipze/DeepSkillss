@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import wpressBg from '../assets/wpress-bg.png';
 import phpCard from '../assets/php-card.svg';
 
@@ -261,6 +263,9 @@ const BenefitsSection = styled.div`
 `;
 
 const LaravelHero = () => {
+  const { user, enrollCourse } = useAuth();
+  const navigate = useNavigate();
+
   // 3D Tilt Effect for Card
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
@@ -289,6 +294,19 @@ const LaravelHero = () => {
     cardY.set(0);
   };
 
+  const handleEnroll = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      enrollCourse({
+        id: 'laravel-mastery',
+        title: 'Full Stack (Laravel)',
+        iconType: 'laravel'
+      });
+      navigate('/dashboard');
+    }
+  };
+
   return (
     <HeroSection onMouseMove={handleHeroMouseMove}>
       <FloatingCode size="4rem" style={{ top: '15%', left: '10%' }} animate={{ y: [0, 50, 0] }} transition={{ duration: 6, repeat: Infinity }}>&lt;?php</FloatingCode>
@@ -315,6 +333,7 @@ const LaravelHero = () => {
           <StartButton
             whileHover={{ scale: 1.05, boxShadow: "0 15px 45px rgba(0, 229, 255, 0.4)" }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleEnroll}
           >
             Start Learning
           </StartButton>
@@ -337,7 +356,7 @@ const LaravelHero = () => {
                 <FeatureItem>Learn</FeatureItem>
                 <FeatureItem>Get Experience from Real-Time Projects</FeatureItem>
               </FeatureList>
-              <EnrollBtn>Enroll Now</EnrollBtn>
+              <EnrollBtn onClick={handleEnroll}>Enroll Now</EnrollBtn>
               <BenefitsSection>Benefits</BenefitsSection>
             </CardFooter>
           </EnrollCard>

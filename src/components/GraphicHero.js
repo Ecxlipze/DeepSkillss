@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import graphicsCard from '../assets/graphics-card.png';
 
 const HeroSection = styled.section`
@@ -257,6 +259,9 @@ const BenefitsSection = styled.div`
 `;
 
 const GraphicHero = () => {
+  const { user, enrollCourse } = useAuth();
+  const navigate = useNavigate();
+  
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
   const cardRotateX = useSpring(useTransform(cardY, [-0.5, 0.5], ["10deg", "-10deg"]), { stiffness: 300, damping: 30 });
@@ -279,6 +284,19 @@ const GraphicHero = () => {
   const handleMouseLeave = () => {
     cardX.set(0);
     cardY.set(0);
+  };
+
+  const handleEnroll = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      enrollCourse({
+        id: 'graphic-design',
+        title: 'Graphic Designing',
+        iconType: 'design'
+      });
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -308,6 +326,7 @@ const GraphicHero = () => {
           <StartButton
             whileHover={{ scale: 1.05, boxShadow: "0 15px 45px rgba(147, 51, 234, 0.4)" }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleEnroll}
           >
             Start Learning
           </StartButton>
@@ -330,7 +349,7 @@ const GraphicHero = () => {
                 <FeatureItem><FaCheckCircle /> Learn</FeatureItem>
                 <FeatureItem><FaCheckCircle /> Get Experience from Real-Time Projects</FeatureItem>
               </FeatureList>
-              <EnrollBtn>Enroll Now</EnrollBtn>
+              <EnrollBtn onClick={handleEnroll}>Enroll Now</EnrollBtn>
               <BenefitsSection>Benefits</BenefitsSection>
             </CardFooter>
           </EnrollCard>

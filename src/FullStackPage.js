@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import { FaUser, FaStar, FaUsers, FaProjectDiagram, FaWallet, FaClock, FaBriefcase, FaChalkboardTeacher, FaDatabase } from 'react-icons/fa';
 import mernCard from './assets/mern-card.png';
 import mernProject from './assets/mern-project.png';
@@ -553,6 +554,7 @@ const OutcomesDescription = styled(motion.p)`
 `;
 
 const FullStackPage = () => {
+  const { user, enrollCourse } = useAuth();
   const navigate = useNavigate();
 
   // 3D Tilt Logic
@@ -578,6 +580,19 @@ const FullStackPage = () => {
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+  };
+
+  const handleEnroll = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      enrollCourse({
+        id: 'full-stack-react',
+        title: 'Full Stack (React)',
+        iconType: 'react'
+      });
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -638,14 +653,13 @@ const FullStackPage = () => {
             Whether your goal is employment, freelancing, or launching your own product, this course 
             focuses on real-world development workflows and outcomes.
           </Description>
-
           <StartButton 
             whileHover={{ scale: 1.05 }} 
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            onClick={() => navigate('/register')}
+            onClick={handleEnroll}
           >
             Start Learning
           </StartButton>
@@ -670,13 +684,14 @@ const FullStackPage = () => {
                 <FeatureItem>GET HIRED</FeatureItem>
               </FeatureList>
 
-              <EnrollButton onClick={() => navigate('/register')}>ENROLL NOW</EnrollButton>
+              <EnrollButton onClick={handleEnroll}>ENROLL NOW</EnrollButton>
               
               <AddedBenefit>ADDED BENEFIT</AddedBenefit>
             </CardContent>
           </EnrollCard>
         </CardColumn>
       </ContentWrapper>
+
 
       {/* Course Features Section */}
       <SectionContainer>
@@ -814,10 +829,10 @@ const FullStackPage = () => {
         <StartButton 
           whileHover={{ scale: 1.05 }} 
           whileTap={{ scale: 0.95 }}
-          onClick={() => navigate('/register')}
+          onClick={handleEnroll}
           style={{ fontSize: '1.2rem', padding: '18px 50px' }}
         >
-          Start Learning
+          Enroll Now
         </StartButton>
       </div>
 

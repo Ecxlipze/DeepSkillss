@@ -6,8 +6,8 @@ const CursorWrapper = styled(motion.div)`
   position: fixed;
   left: 0;
   top: 0;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   border: 2px solid #fff;
   border-radius: 50%;
   pointer-events: none;
